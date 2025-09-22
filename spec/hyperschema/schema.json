@@ -2,27 +2,27 @@
   "version": 1,
   "schema": [
     {
-      "name": "hello-request",
+      "name": "state-request",
       "namespace": "hypernotes",
       "compact": false,
       "flagsPosition": 0,
       "fields": [
         {
-          "name": "world",
-          "type": "string",
+          "name": "action",
+          "type": "json",
           "version": 1
         }
       ]
     },
     {
-      "name": "hello-response",
+      "name": "state-response",
       "namespace": "hypernotes",
       "compact": false,
       "flagsPosition": 0,
       "fields": [
         {
-          "name": "message",
-          "type": "string",
+          "name": "state",
+          "type": "json",
           "version": 1
         }
       ]

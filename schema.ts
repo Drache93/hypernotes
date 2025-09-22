@@ -1,4 +1,6 @@
+// @ts-ignore
 import HRPCBuilder from 'hrpc'
+// @ts-ignore
 import Hyperschema from 'hyperschema'
 import path from 'path'
 
@@ -10,13 +12,13 @@ const schema = Hyperschema.from(SCHEMA_DIR)
 const schemaNs = schema.namespace('hypernotes')
 
 schemaNs.register({
-  name: 'hello-request',
-  fields: [{ name: 'world', type: 'string' }]
+  name: 'state-request',
+  fields: [{ name: 'action', type: 'json' }]
 })
 
 schemaNs.register({
-  name: 'hello-response',
-  fields: [{ name: 'message', type: 'string' }]
+  name: 'state-response',
+  fields: [{ name: 'state', type: 'json' }]
 })
 Hyperschema.toDisk(schema)
 
@@ -26,9 +28,9 @@ const ns = builder.namespace('hypernotes')
 
 // Register commands
 ns.register({
-  name: 'hello',
-  request: { name: '@hypernotes/hello-request', stream: false },
-  response: { name: '@hypernotes/hello-response', stream: false }
+  name: 'state',
+  request: { name: '@hypernotes/state-request', stream: false },
+  response: { name: '@hypernotes/state-response', stream: false }
 })
 
 // Save interface to disk

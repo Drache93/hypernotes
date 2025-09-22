@@ -11,48 +11,48 @@ const VERSION = 1
 // eslint-disable-next-line no-unused-vars
 let version = VERSION
 
-// @hypernotes/hello-request
+// @hypernotes/state-request
 const encoding0 = {
   preencode(state, m) {
     state.end++ // max flag is 1 so always one byte
 
-    if (m.world) c.string.preencode(state, m.world)
+    if (m.action) c.json.preencode(state, m.action)
   },
   encode(state, m) {
-    const flags = m.world ? 1 : 0
+    const flags = m.action ? 1 : 0
 
     c.uint.encode(state, flags)
 
-    if (m.world) c.string.encode(state, m.world)
+    if (m.action) c.json.encode(state, m.action)
   },
   decode(state) {
     const flags = c.uint.decode(state)
 
     return {
-      world: (flags & 1) !== 0 ? c.string.decode(state) : null
+      action: (flags & 1) !== 0 ? c.json.decode(state) : null
     }
   }
 }
 
-// @hypernotes/hello-response
+// @hypernotes/state-response
 const encoding1 = {
   preencode(state, m) {
     state.end++ // max flag is 1 so always one byte
 
-    if (m.message) c.string.preencode(state, m.message)
+    if (m.state) c.json.preencode(state, m.state)
   },
   encode(state, m) {
-    const flags = m.message ? 1 : 0
+    const flags = m.state ? 1 : 0
 
     c.uint.encode(state, flags)
 
-    if (m.message) c.string.encode(state, m.message)
+    if (m.state) c.json.encode(state, m.state)
   },
   decode(state) {
     const flags = c.uint.decode(state)
 
     return {
-      message: (flags & 1) !== 0 ? c.string.decode(state) : null
+      state: (flags & 1) !== 0 ? c.json.decode(state) : null
     }
   }
 }
@@ -80,9 +80,9 @@ function getEnum(name) {
 
 function getEncoding(name) {
   switch (name) {
-    case '@hypernotes/hello-request':
+    case '@hypernotes/state-request':
       return encoding0
-    case '@hypernotes/hello-response':
+    case '@hypernotes/state-response':
       return encoding1
     default:
       throw new Error('Encoder not found ' + name)

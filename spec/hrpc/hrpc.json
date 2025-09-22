@@ -3,13 +3,13 @@
   "schema": [
     {
       "id": 0,
-      "name": "@hypernotes/hello",
+      "name": "@hypernotes/state",
       "request": {
-        "name": "@hypernotes/hello-request",
+        "name": "@hypernotes/state-request",
         "stream": false
       },
       "response": {
-        "name": "@hypernotes/hello-response",
+        "name": "@hypernotes/state-response",
         "stream": false
       },
       "version": 1

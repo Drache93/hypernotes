@@ -6,8 +6,8 @@ import { c, RPC, RPCStream, RPCRequestStream } from 'hrpc/runtime'
 import { getEncoding } from './messages.js'
 
 const methods = new Map([
-  ['@hypernotes/hello', 0],
-  [0, '@hypernotes/hello']
+  ['@hypernotes/state', 0],
+  [0, '@hypernotes/state']
 ])
 
 class HRPC {
@@ -15,10 +15,10 @@ class HRPC {
     this._stream = stream
     this._handlers = []
     this._requestEncodings = new Map([
-      ['@hypernotes/hello', getEncoding('@hypernotes/hello-request')]
+      ['@hypernotes/state', getEncoding('@hypernotes/state-request')]
     ])
     this._responseEncodings = new Map([
-      ['@hypernotes/hello', getEncoding('@hypernotes/hello-response')]
+      ['@hypernotes/state', getEncoding('@hypernotes/state-response')]
     ])
     this._rpc = new RPC(stream, async (req) => {
       const command = methods.get(req.command)
@@ -113,12 +113,12 @@ class HRPC {
     }
   }
 
-  async hello(args) {
-    return this._call('@hypernotes/hello', args)
+  async state(args) {
+    return this._call('@hypernotes/state', args)
   }
 
-  onHello(responseFn) {
-    this._handlers['@hypernotes/hello'] = responseFn
+  onState(responseFn) {
+    this._handlers['@hypernotes/state'] = responseFn
   }
 
   _requestIsStream(command) {
