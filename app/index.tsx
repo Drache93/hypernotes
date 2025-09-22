@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { Text } from 'react-native'
 import { Worklet } from 'react-native-bare-kit'
+import bundle from '../backend/index.bundle.mjs'
+import HRPC from '../spec/hrpc'
 import b4a from 'b4a'
 
 export default function () {

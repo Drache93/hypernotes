@@ -1,23 +1,26 @@
 {
   "private": true,
-  "name": "bare-expo",
-  "description": "Example of embedding Bare in an Expo application",
+  "name": "hypernotes",
+  "description": "Your notes, forever",
   "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
     "android": "expo run:android",
-    "ios": "expo run:ios"
+    "ios": "expo run:ios",
+    "build:mjs": "bun build backend/index.ts --packages=external --outfile ./backend/backend.mjs",
+    "bundle": "bun run build:mjs && npx bare-pack --target ios --target android  --linked --out app/app.bundle.mjs backend/backend.mjs",
+    "generate": "bun run schema.ts"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/holepunchto/bare-expo.git"
+    "url": "git+https://github.com/hypernotes/hypernotes.git"
   },
-  "author": "Holepunch",
+  "author": "Hypernotes",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/holepunchto/bare-expo/issues"
+    "url": "https://github.com/hypernotes/hypernotes/issues"
   },
-  "homepage": "https://github.com/holepunchto/bare-expo#readme",
+  "homepage": "https://github.com/hypernotes/hypernotes#readme",
   "dependencies": {
     "b4a": "^1.6.7",
     "expo": "^53.0.9",
@@ -26,6 +29,9 @@
     "expo-linking": "^7.1.5",
     "expo-router": "^5.0.6",
     "expo-system-ui": "^5.0.7",
+    "holepunch-types": "github:Drache93/holepunch-types#main",
+    "hrpc": "^4.2.0",
+    "hyperschema": "^1.15.0",
     "react": "~19.0.0",
     "react-dom": "~19.0.0",
     "react-native": "^0.79.2",

@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "schema": [
+    {
+      "name": "hello-request",
+      "namespace": "hypernotes",
+      "compact": false,
+      "flagsPosition": 0,
+      "fields": [
+        {
+          "name": "world",
+          "type": "string",
+          "version": 1
+        }
+      ]
+    },
+    {
+      "name": "hello-response",
+      "namespace": "hypernotes",
+      "compact": false,
+      "flagsPosition": 0,
+      "fields": [
+        {
+          "name": "message",
+          "type": "string",
+          "version": 1
+        }
+      ]
+    }
+  ]
+}
