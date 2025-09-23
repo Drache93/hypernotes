@@ -24,6 +24,7 @@
   "dependencies": {
     "@tamagui/babel-plugin": "^1.133.1",
     "@tamagui/config": "^1.133.1",
+    "@tamagui/lucide-icons": "^1.133.1",
     "b4a": "^1.7.1",
     "expo": "^53.0.9",
     "expo-build-properties": "^0.14.6",
@@ -40,6 +41,7 @@
     "react-native-b4a": "^0.0.1",
     "react-native-bare-kit": "^0.9.2",
     "react-native-safe-area-context": "^5.4.0",
+    "react-native-svg": "15.11.2",
     "tamagui": "^1.133.1"
   },
   "devDependencies": {

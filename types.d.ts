@@ -6,6 +6,11 @@ interface HypernotesAction {
   hello?: string
 }
 
+interface Note {
+  id: string
+  content: string
+}
+
 interface HypernotesHRPC {
   state: (data: {
     action: HypernotesAction
