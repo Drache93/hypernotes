@@ -1,18 +1,39 @@
 import { Card, SizableText } from 'tamagui'
+import {
+  MarkdownTextInput,
+  parseExpensiMark
+} from '@expensify/react-native-live-markdown'
+import { useCallback, useEffect, useState } from 'react'
 
 export interface NoteProps {
   note: Note
   open?: boolean
   dimmed?: boolean
   onPress?: (note: Note) => void
+  onChange?: (content: string) => void
 }
 
 export default function Note({
   note,
   open = false,
   dimmed = false,
-  onPress
+  onPress,
+  onChange
 }: NoteProps) {
+  const [text, setText] = useState(note.content)
+
+  useEffect(() => {
+    setText(note.content)
+  }, [note.content])
+
+  const handleChange = useCallback(
+    (content: string) => {
+      setText(content)
+      onChange?.(content)
+    },
+    [onChange]
+  )
+
   return (
     <Card
       key={note.id}
@@ -24,12 +45,25 @@ export default function Note({
       maxWidth={open ? undefined : '50%'}
       flex={open ? 0 : 1}
       height={open ? '50%' : 250}
-      padding='$4'
+      padding='$2'
       opacity={dimmed ? 0.3 : 1}
       scale={dimmed ? 0.95 : 1}
       onPress={() => onPress?.(note)}
     >
-      <SizableText opacity={dimmed ? 0.5 : 1}>{note.content}</SizableText>
+      <MarkdownTextInput
+        style={{
+          color: '#fff',
+          height: '100%',
+          textAlign: 'left',
+          width: '100%',
+          verticalAlign: 'top'
+        }}
+        readOnly={!open}
+        multiline={true}
+        value={text}
+        onChangeText={handleChange}
+        parser={parseExpensiMark}
+      />
     </Card>
   )
 }

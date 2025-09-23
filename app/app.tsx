@@ -25,12 +25,8 @@ export default function App() {
   }, [])
 
   const handleNewNote = useCallback(() => {
-    console.log('handleNewNote')
     const currentNotes = [...notes]
-    setNotes((notes) => [
-      ...notes,
-      { id: Date.now().toString(), content: 'Hello world!' }
-    ])
+    setNotes((notes) => [...notes, { id: Date.now().toString(), content: '' }])
     setOpenNote(currentNotes.length)
   }, [notes])
 
@@ -71,7 +67,17 @@ export default function App() {
           alignItems='center'
           onPress={() => setOpenNote(-1)}
         >
-          <Note note={notes[openNote]} open />
+          <Note
+            note={notes[openNote]}
+            open
+            onChange={(content) => {
+              const updatedNotes = notes.map((note, index) =>
+                index === openNote ? { ...note, content } : note
+              )
+
+              setNotes(updatedNotes)
+            }}
+          />
         </View>
       )}
     </ZStack>
