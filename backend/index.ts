@@ -4,6 +4,7 @@ const rpc = new HRPC(IPC) as HypernotesHRPC
 
 rpc.onState(({ action }) => {
   console.log('app action', action)
+
   return {
     state: {
       hello: 'world'
