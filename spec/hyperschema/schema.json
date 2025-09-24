@@ -8,8 +8,13 @@
       "flagsPosition": 0,
       "fields": [
         {
-          "name": "action",
+          "name": "payload",
           "type": "json",
+          "version": 1
+        },
+        {
+          "name": "action",
+          "type": "string",
           "version": 1
         }
       ]

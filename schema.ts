@@ -13,7 +13,10 @@ const schemaNs = schema.namespace('hypernotes')
 
 schemaNs.register({
   name: 'state-request',
-  fields: [{ name: 'action', type: 'json' }]
+  fields: [
+    { name: 'payload', type: 'json' },
+    { name: 'action', type: 'string' }
+  ]
 })
 
 schemaNs.register({

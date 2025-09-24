@@ -14,22 +14,27 @@ let version = VERSION
 // @hypernotes/state-request
 const encoding0 = {
   preencode(state, m) {
-    state.end++ // max flag is 1 so always one byte
+    state.end++ // max flag is 2 so always one byte
 
-    if (m.action) c.json.preencode(state, m.action)
+    if (m.payload) c.json.preencode(state, m.payload)
+    if (m.action) c.string.preencode(state, m.action)
   },
   encode(state, m) {
-    const flags = m.action ? 1 : 0
+    const flags =
+      (m.payload ? 1 : 0) |
+      (m.action ? 2 : 0)
 
     c.uint.encode(state, flags)
 
-    if (m.action) c.json.encode(state, m.action)
+    if (m.payload) c.json.encode(state, m.payload)
+    if (m.action) c.string.encode(state, m.action)
   },
   decode(state) {
     const flags = c.uint.decode(state)
 
     return {
-      action: (flags & 1) !== 0 ? c.json.decode(state) : null
+      payload: (flags & 1) !== 0 ? c.json.decode(state) : null,
+      action: (flags & 2) !== 0 ? c.string.decode(state) : null
     }
   }
 }

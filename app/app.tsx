@@ -1,34 +1,39 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useAppState } from './contexts'
 import {
-  SizableText,
   XStack,
   ScrollView,
-  Card,
-  H2,
-  H3,
-  H4,
   ZStack,
   Button,
-  View
+  View,
+  Theme,
+  Spinner
 } from 'tamagui'
 import { Plus } from '@tamagui/lucide-icons'
 import Note from './components/Note'
 
 export default function App() {
-  const { state, action } = useAppState()
+  const { state, action, isReady } = useAppState()
   const [openNote, setOpenNote] = useState(-1)
-  const [notes, setNotes] = useState<Note[]>([])
-
-  useEffect(() => {
-    action({ hello: 'world' })
-  }, [])
 
   const handleNewNote = useCallback(() => {
-    const currentNotes = [...notes]
-    setNotes((notes) => [...notes, { id: Date.now().toString(), content: '' }])
-    setOpenNote(currentNotes.length)
-  }, [notes])
+    // const currentNotes = [...notes]
+    // setNotes((notes) => [...notes, { id: Date.now().toString(), content: '' }])
+    // setOpenNote(currentNotes.length)
+
+    return action('CREATE_NOTE', {
+      id: Date.now().toString(),
+      content: '',
+      theme: 'blue'
+    })
+  }, [])
+
+  if (!isReady)
+    return (
+      <View width='100%' height='100%' backgroundColor='$background'>
+        <Spinner size='large' color='$green10' />
+      </View>
+    )
 
   return (
     <ZStack height='100%' width='100%'>
@@ -39,12 +44,14 @@ export default function App() {
         padding='$4'
       >
         <XStack flex={1} flexWrap='wrap' gap='$4'>
-          {notes.map((note, index) => (
+          {state.notes.map((note, index) => (
             <Note
               key={index}
               note={note}
               dimmed={openNote > -1 && openNote !== index}
-              onPress={() => setOpenNote(index)}
+              onPress={() => {
+                action('OPEN_NOTE', note.id)
+              }}
             />
           ))}
         </XStack>
@@ -58,26 +65,16 @@ export default function App() {
         right={20}
         onPress={handleNewNote}
       ></Button>
-      {openNote > -1 && (
+      {state.currentNote && (
         <View
           height='100%'
           width='100%'
           display='flex'
           justifyContent='center'
           alignItems='center'
-          onPress={() => setOpenNote(-1)}
+          onPress={() => action('CLOSE_NOTE')}
         >
-          <Note
-            note={notes[openNote]}
-            open
-            onChange={(content) => {
-              const updatedNotes = notes.map((note, index) =>
-                index === openNote ? { ...note, content } : note
-              )
-
-              setNotes(updatedNotes)
-            }}
-          />
+          <Note note={state.currentNote} open onChange={(content) => {}} />
         </View>
       )}
     </ZStack>
