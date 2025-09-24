@@ -52,11 +52,22 @@ export default function AppStateProvider({
     setIsWorkletStarted(true)
 
     async function init() {
-      const response = await hrpc.current.state({
-        action: 'START',
-        payload: {}
-      })
-      setAppState(response.state)
+      console.log('init')
+      try {
+        await hrpc.current.state({
+          action: 'SUSPEND',
+          payload: {}
+        })
+
+        const response = await hrpc.current.state({
+          action: 'START',
+          payload: {}
+        })
+        console.log('response', response)
+        setAppState(response.state)
+      } catch (error) {
+        console.error(error)
+      }
     }
 
     init()

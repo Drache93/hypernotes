@@ -8,7 +8,7 @@ export interface NoteData {
 }
 
 export const definition = createMachine({
-  initial: 'idle' as const,
+  initial: 'starting' as const,
   context: {
     currentNote: undefined as NoteData | undefined,
     notes: [] as NoteData[]
@@ -36,6 +36,12 @@ export const definition = createMachine({
           action: (ctx, id: string) => {
             ctx.currentNote = ctx.notes.find((n) => n.id === id)
           }
+        },
+        SUSPEND: {
+          target: 'starting',
+          action: (ctx) => {
+            ctx.currentNote = undefined
+          }
         }
       }
     },
@@ -52,6 +58,12 @@ export const definition = createMachine({
         },
         CLOSE_NOTE: {
           target: 'idle',
+          action: (ctx) => {
+            ctx.currentNote = undefined
+          }
+        },
+        SUSPEND: {
+          target: 'starting',
           action: (ctx) => {
             ctx.currentNote = undefined
           }

@@ -7,14 +7,17 @@ import {
   Button,
   View,
   Theme,
-  Spinner
+  Spinner,
+  Text,
+  useTheme
 } from 'tamagui'
-import { Plus } from '@tamagui/lucide-icons'
+import { MailWarning, Plus } from '@tamagui/lucide-icons'
+import MasonryList from '@react-native-seoul/masonry-list'
 import Note from './components/Note'
 
 export default function App() {
   const { state, action, isReady } = useAppState()
-  const [openNote, setOpenNote] = useState(-1)
+  const theme = useTheme()
 
   const handleNewNote = useCallback(() => {
     // const currentNotes = [...notes]
@@ -37,13 +40,44 @@ export default function App() {
 
   return (
     <ZStack height='100%' width='100%'>
-      <ScrollView
+      <MasonryList
         height='100%'
         width='100%'
-        backgroundColor='$background'
+        containerStyle={{
+          backgroundColor: theme.background.val,
+          paddingTop: 24
+        }}
         padding='$4'
-      >
-        <XStack flex={1} flexWrap='wrap' gap='$4'>
+        data={state.notes}
+        keyExtractor={(item): string => item.id}
+        numColumns={2}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          paddingHorizontal: 24,
+          alignSelf: 'stretch'
+        }}
+        renderItem={({ item, i }) => (
+          <Note
+            style={{
+              marginLeft: i % 2 === 0 ? 0 : 6,
+              marginRight: i % 2 === 0 ? 6 : 0,
+              marginBottom: 12
+            }}
+            dimmed={
+              state.currentNote && state.currentNote.id !== (item as any).id
+            }
+            selected={
+              state.currentNote && state.currentNote.id === (item as any).id
+            }
+            note={item as any}
+            onPress={() => {
+              action('OPEN_NOTE', (item as any).id)
+            }}
+            // onLongPress={() => {}}
+          />
+        )}
+      />
+      {/*<XStack flex={1} flexWrap='wrap' gap='$4'>
           {state.notes.map((note, index) => (
             <Note
               key={index}
@@ -54,8 +88,7 @@ export default function App() {
               }}
             />
           ))}
-        </XStack>
-      </ScrollView>
+        </XStack>*/}
       <Button
         size='$6'
         icon={Plus}

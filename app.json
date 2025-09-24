@@ -25,7 +25,9 @@
       "package": "org.hypernotes.app"
     },
     "plugins": [
-      ["expo-router"],
+      [
+        "expo-router"
+      ],
       [
         "expo-build-properties",
         {
@@ -34,6 +36,13 @@
           }
         }
       ]
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "6b130191-5245-4c94-a0f1-52983d27bedf"
+      }
+    },
+    "owner": "d_cassidy"
   }
 }

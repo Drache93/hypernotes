@@ -5,9 +5,11 @@ import { useAppState } from '../contexts'
 import { Circle } from '@tamagui/lucide-icons'
 
 export interface NoteProps {
+  style?: any
   note: NoteData
   open?: boolean
   dimmed?: boolean
+  selected?: boolean
   onPress?: (note: NoteData) => void
   onChange?: (content: string) => void
 }
@@ -16,8 +18,10 @@ export default function Note({
   note,
   open = false,
   dimmed = false,
+  selected = false,
   onPress,
-  onChange
+  onChange,
+  style
 }: NoteProps) {
   const { state, action, isReady } = useAppState()
   const [text, setText] = useState(note.content)
@@ -39,18 +43,17 @@ export default function Note({
   return (
     <Theme name={note.theme ?? 'blue'}>
       <Card
+        style={style}
         key={note.id}
         elevate={!dimmed}
         bordered
         animation='bouncy'
         width={open ? '75%' : undefined}
-        minWidth='40%'
-        maxWidth={open ? undefined : '50%'}
-        flex={open ? 0 : 1}
-        height={open ? '50%' : 250}
+        height={open ? '50%' : undefined}
+        minHeight={100}
         // padding='$2'
-        opacity={dimmed ? 0.3 : 1}
-        scale={dimmed ? 0.95 : 1}
+        opacity={dimmed ? 0.3 : selected ? 0 : 1}
+        scale={dimmed ? 0.95 : selected ? 0 : 1}
         onPress={() => onPress?.(note)}
         display='flex'
         flexDirection='column'
