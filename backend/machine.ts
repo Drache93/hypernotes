@@ -50,6 +50,9 @@ export const definition = createMachine({
         EDIT_NOTE: {
           target: 'open',
           action: (ctx, data: { content: string; theme?: ThemeName }) => {
+            if (!ctx.currentNote) return
+            if (ctx.currentNote.content === data.content) return
+
             ctx.currentNote = { ...ctx.currentNote!, ...data }
             ctx.notes = ctx.notes.map((n: NoteData) =>
               ctx.currentNote?.id === n.id ? ctx.currentNote : n
